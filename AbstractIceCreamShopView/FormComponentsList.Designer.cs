@@ -97,7 +97,7 @@
             this.Controls.Add(this.buttonUpd);
             this.Controls.Add(this.buttonAdd);
             this.Name = "FormComponentsList";
-            this.Text = "FormComponents";
+            this.Text = "Список компонентов для мороженого";
             this.Load += new System.EventHandler(this.FormComponents_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
