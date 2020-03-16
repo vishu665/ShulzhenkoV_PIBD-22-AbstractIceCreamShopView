@@ -1,6 +1,5 @@
-﻿using System;
-using AbstractIceCreamShopBusinessLogic.Enums;
-
+﻿using AbstractIceCreamShopBusinessLogic.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 

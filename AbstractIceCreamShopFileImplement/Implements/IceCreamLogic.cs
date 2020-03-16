@@ -5,7 +5,7 @@ using AbstractIceCreamShopFileImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Text;
 
 namespace AbstractIceCreamShopFileImplement.Implements
 {
@@ -16,93 +16,7 @@ namespace AbstractIceCreamShopFileImplement.Implements
         {
             source = FileDataListSingleton.GetInstance();
         }
-        public List<IceCreamViewModel> GetList()
-        {
-            List<IceCreamViewModel> result = source.IceCreams
-            .Select(rec => new IceCreamViewModel
-            {
-                Id = rec.Id,
-                IceCreamName = rec.IceCreamName,
-                Price = rec.Price,
-                IceCreamComponents = source.IceCreamComponents
-            .Where(recPC => recPC.IceCreamId == rec.Id)
-           .Select(recPC => new IceCreamComponentViewModel
-           {
-               Id = recPC.Id,
-               IceCreamId = recPC.IceCreamId,
-               ComponentId = recPC.ComponentId,
-               ComponentName = source.Components.FirstOrDefault(recC => recC.Id == recPC.ComponentId)?.ComponentName,
-               Count = recPC.Count
-           })
-           .ToList()
-            })
-            .ToList();
-            return result;
-        }
-        public IceCreamViewModel GetElement(int id)
-        {
-            IceCream element = source.IceCreams.FirstOrDefault(rec => rec.Id == id);
-            if (element != null)
-            {
-                return new IceCreamViewModel
-                {
-                    Id = element.Id,
-                    IceCreamName = element.IceCreamName,
-                    Price = element.Price,
-                    IceCreamComponents = source.IceCreamComponents
-                    .Where(recPC => recPC.IceCreamId == element.Id)
-                    .Select(recPC => new IceCreamComponentViewModel
-                    {
-                        Id = recPC.Id,
-                        IceCreamId = recPC.IceCreamId,
-                        ComponentId = recPC.ComponentId,
-                        ComponentName = source.Components.FirstOrDefault(recC => recC.Id == recPC.ComponentId)?.ComponentName,
-                        Count = recPC.Count
-                    })
-                    .ToList()
-                };
-            }
-            throw new Exception("Элемент не найден");
-        }
-        public void AddElement(IceCreamBindingModel model)
-        {
-            IceCream element = source.IceCreams.FirstOrDefault(rec => rec.IceCreamName ==
-           model.IceCreamName);
-            if (element != null)
-            {
-                throw new Exception("Уже есть изделие с таким названием");
-            }
-            int maxId = source.IceCreams.Count > 0 ? source.IceCreams.Max(rec => rec.Id): 0;
-            source.IceCreams.Add(new IceCream
-            {
-                Id = maxId + 1,
-                IceCreamName = model.IceCreamName,
-                Price = model.Price
-            });
-            // компоненты для изделия
-            int maxPCId = source.IceCreamComponents.Count > 0 ?
-           source.IceCreamComponents.Max(rec => rec.Id) : 0;
-            // убираем дубли по компонентам
-            var groupComponents = model.iceCreamComponents
-            .GroupBy(rec => rec.ComponentId)
-           .Select(rec => new
-           {
-               ComponentId = rec.Key,
-               Count = rec.Sum(r => r.Count)
-           });
-            // добавляем компоненты
-            foreach (var groupComponent in groupComponents)
-            {
-                source.IceCreamComponents.Add(new IceCreamComponent
-                {
-                    Id = ++maxPCId,
-                    IceCreamId = maxId + 1,
-                    ComponentId = groupComponent.ComponentId,
-                    Count = groupComponent.Count
-                });
-            }
-        }
-        public void UpdElement(IceCreamBindingModel model)
+        public void CreateOrUpdate(IceCreamBindingModel model)
         {
             IceCream element = source.IceCreams.FirstOrDefault(rec => rec.IceCreamName ==
            model.IceCreamName && rec.Id != model.Id);
@@ -110,71 +24,79 @@ namespace AbstractIceCreamShopFileImplement.Implements
             {
                 throw new Exception("Уже есть изделие с таким названием");
             }
-            element = source.IceCreams.FirstOrDefault(rec => rec.Id == model.Id);
-            if (element == null)
+            if (model.Id.HasValue)
             {
-                throw new Exception("Элемент не найден");
+                element = source.IceCreams.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element == null)
+                {
+                    throw new Exception("Элемент не найден");
+                }
+            }
+            else
+            {
+                int maxId = source.IceCreams.Count > 0 ? source.Components.Max(rec =>
+               rec.Id) : 0;
+                element = new IceCream { Id = maxId + 1 };
+                source.IceCreams.Add(element);
             }
             element.IceCreamName = model.IceCreamName;
             element.Price = model.Price;
-            int maxPCId = source.IceCreamComponents.Count > 0 ?
-           source.IceCreamComponents.Max(rec => rec.Id) : 0;
-            // обновляем существуюущие компоненты
-            var compIds = model.iceCreamComponents.Select(rec =>
-           rec.ComponentId).Distinct();
-            var updateComponents = source.IceCreamComponents.Where(rec => rec.IceCreamId
-           == model.Id && compIds.Contains(rec.ComponentId));
+            // удалили те, которых нет в модели
+            source.IceCreamComponents.RemoveAll(rec => rec.IceCreamId == model.Id &&
+           !model.IceCreamComponents.ContainsKey(rec.ComponentId));
+            // обновили количество у существующих записей
+            var updateComponents = source.IceCreamComponents.Where(rec => rec.IceCreamId ==
+           model.Id && model.IceCreamComponents.ContainsKey(rec.ComponentId));
             foreach (var updateComponent in updateComponents)
             {
-                updateComponent.Count = model.iceCreamComponents.FirstOrDefault(rec =>
-               rec.Id == updateComponent.Id).Count;
+                updateComponent.Count =
+               model.IceCreamComponents[updateComponent.ComponentId].Item2;
+                model.IceCreamComponents.Remove(updateComponent.ComponentId);
             }
-            source.IceCreamComponents.RemoveAll(rec => rec.IceCreamId == model.Id &&
-           !compIds.Contains(rec.ComponentId));
-            // новые записи
-            var groupComponents = model.iceCreamComponents
-            .Where(rec => rec.Id == 0)
-           .GroupBy(rec => rec.ComponentId)
-           .Select(rec => new
-           {
-               ComponentId = rec.Key,
-               Count = rec.Sum(r => r.Count)
-           });
-            foreach (var groupComponent in groupComponents)
+            // добавили новые
+            int maxPCId = source.IceCreamComponents.Count > 0 ?
+           source.IceCreamComponents.Max(rec => rec.Id) : 0;
+            foreach (var pc in model.IceCreamComponents)
             {
-                IceCreamComponent elementPC =
-               source.IceCreamComponents.FirstOrDefault(rec => rec.IceCreamId == model.Id &&
-               rec.ComponentId == groupComponent.ComponentId);
-                if (elementPC != null)
+                source.IceCreamComponents.Add(new IceCreamComponent
                 {
-                    elementPC.Count += groupComponent.Count;
-                }
-                else
-                {
-                    source.IceCreamComponents.Add(new IceCreamComponent
-                    {
-                        Id = ++maxPCId,
-                        IceCreamId = model.Id,
-                        ComponentId = groupComponent.ComponentId,
-                        Count = groupComponent.Count
-                    });
-                }
+                    Id = ++maxPCId,
+                    IceCreamId = element.Id,
+                    ComponentId = pc.Key,
+                    Count = pc.Value.Item2
+                });
             }
         }
-        public void DelElement(int id)
+        public void Delete(IceCreamBindingModel model)
         {
-            IceCream element = source.IceCreams.FirstOrDefault(rec => rec.Id == id);
+            // удаяем записи по компонентам при удалении изделия
+            source.IceCreamComponents.RemoveAll(rec => rec.IceCreamId == model.Id);
+            IceCream element = source.IceCreams.FirstOrDefault(rec => rec.Id == model.Id);
             if (element != null)
             {
-                // удаяем записи по компонентам при удалении изделия
-                source.IceCreamComponents.RemoveAll(rec => rec.IceCreamId == id);
                 source.IceCreams.Remove(element);
-
             }
             else
             {
                 throw new Exception("Элемент не найден");
             }
+        }
+        public List<IceCreamViewModel> Read(IceCreamBindingModel model)
+        {
+            return source.IceCreams
+            .Where(rec => model == null || rec.Id == model.Id)
+            .Select(rec => new IceCreamViewModel
+            {
+                Id = rec.Id,
+                IceCreamName = rec.IceCreamName,
+                Price = rec.Price,
+                IceCreamComponents = source.IceCreamComponents
+            .Where(recPC => recPC.IceCreamId == rec.Id)
+           .ToDictionary(recPC => recPC.ComponentId, recPC =>
+            (source.Components.FirstOrDefault(recC => recC.Id ==
+           recPC.ComponentId)?.ComponentName, recPC.Count))
+            })
+            .ToList();
         }
     }
 }

@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 
 namespace AbstractIceCreamShopFileImplement
 {
-    public class FileDataListSingleton
+   public class FileDataListSingleton
     {
+
         private static FileDataListSingleton instance;
         private readonly string ComponentFileName = "Component.xml";
         private readonly string OrderFileName = "Order.xml";
@@ -24,7 +24,7 @@ namespace AbstractIceCreamShopFileImplement
         {
             Components = LoadComponents();
             Orders = LoadOrders();
-            IceCreams = LoadIceCreams();
+            IceCreams = LoadIceCrems();
             IceCreamComponents = LoadIceCreamComponents();
         }
         public static FileDataListSingleton GetInstance()
@@ -87,13 +87,13 @@ namespace AbstractIceCreamShopFileImplement
             }
             return list;
         }
-        private List<IceCream> LoadIceCreams()
+        private List<IceCream> LoadIceCrems()
         {
             var list = new List<IceCream>();
             if (File.Exists(IceCreamFileName))
             {
                 XDocument xDocument = XDocument.Load(IceCreamFileName);
-                var xElements = xDocument.Root.Elements("IceCreamF").ToList();
+                var xElements = xDocument.Root.Elements("IceCream").ToList();
                 foreach (var elem in xElements)
                 {
                     list.Add(new IceCream
@@ -119,8 +119,7 @@ namespace AbstractIceCreamShopFileImplement
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         IceCreamId = Convert.ToInt32(elem.Element("IceCreamId").Value),
-                        ComponentId =
-                   Convert.ToInt32(elem.Element("ComponentId").Value),
+                        ComponentId = Convert.ToInt32(elem.Element("ComponentId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value)
                     });
                 }
@@ -160,7 +159,6 @@ namespace AbstractIceCreamShopFileImplement
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(OrderFileName);
-
             }
         }
         private void SaveIceCreams()
@@ -186,7 +184,7 @@ namespace AbstractIceCreamShopFileImplement
                 var xElement = new XElement("IceCreamComponents");
                 foreach (var iceCreamComponent in IceCreamComponents)
                 {
-                    xElement.Add(new XElement("IceCreamComponent",
+                    xElement.Add(new XElement("IceCreamtComponent",
                     new XAttribute("Id", iceCreamComponent.Id),
                     new XElement("IceCreamId", iceCreamComponent.IceCreamId),
                     new XElement("ComponentId", iceCreamComponent.ComponentId),
@@ -195,6 +193,6 @@ namespace AbstractIceCreamShopFileImplement
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(IceCreamComponentFileName);
             }
-        }
+        } 
     }
 }

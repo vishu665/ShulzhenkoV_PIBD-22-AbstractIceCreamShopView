@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AbstractIceCreamShopFileImplement.Models
 {
-    public class IceCreamComponent
+   public class IceCreamComponent
     {
         public int Id { get; set; }
         public int IceCreamId { get; set; }

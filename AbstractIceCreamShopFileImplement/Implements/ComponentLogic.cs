@@ -1,11 +1,11 @@
-﻿
-using AbstractIceCreamShopBusinessLogic.BindingModels;
+﻿using AbstractIceCreamShopBusinessLogic.BindingModels;
 using AbstractIceCreamShopBusinessLogic.Interfaces;
 using AbstractIceCreamShopBusinessLogic.ViewModels;
 using AbstractIceCreamShopFileImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace AbstractIceCreamShopFileImplement.Implements
 {
@@ -16,60 +16,34 @@ namespace AbstractIceCreamShopFileImplement.Implements
         {
             source = FileDataListSingleton.GetInstance();
         }
-        public List<ComponentViewModel> GetList()
-        {
-            List<ComponentViewModel> result = source.Components.Select(rec => new ComponentViewModel
-            {
-                Id = rec.Id,
-                ComponentName = rec.ComponentName
-            })
-            .ToList();
-            return result;
-        }
-        public ComponentViewModel GetElement(int id)
-        {
-            Component element = source.Components.FirstOrDefault(rec => rec.Id == id);
-            if (element != null)
-            {
-                return new ComponentViewModel
-                {
-                    Id = element.Id,
-                    ComponentName = element.ComponentName
-                };
-            }
-            throw new Exception("Элемент не найден");
-        }
-        public void AddElement(ComponentBindingModel model)
-        {
-            Component element = source.Components.FirstOrDefault(rec => rec.ComponentName == model.ComponentName);
-            if (element != null)
-            {
-                throw new Exception("Уже есть компонент с таким названием");
-            }
-            int maxId = source.Components.Count > 0 ? source.Components.Max(rec => rec.Id) : 0;
-            source.Components.Add(new Component
-            {
-                Id = maxId + 1,
-                ComponentName = model.ComponentName
-            });
-        }
-        public void UpdElement(ComponentBindingModel model)
+        public void CreateOrUpdate(ComponentBindingModel model)
         {
             Component element = source.Components.FirstOrDefault(rec => rec.ComponentName == model.ComponentName && rec.Id != model.Id);
             if (element != null)
             {
                 throw new Exception("Уже есть компонент с таким названием");
             }
-            element = source.Components.FirstOrDefault(rec => rec.Id == model.Id);
-            if (element == null)
+            if (model.Id.HasValue)
             {
-                throw new Exception("Элемент не найден");
+                element = source.Components.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element == null)
+                {
+                    throw new Exception("Элемент не найден");
+                }
+            }
+            else
+            {
+                int maxId = source.Components.Count > 0 ? source.Components.Max(rec =>
+               rec.Id) : 0;
+                element = new Component { Id = maxId + 1 };
+                source.Components.Add(element);
             }
             element.ComponentName = model.ComponentName;
         }
-        public void DelElement(int id)
+        public void Delete(ComponentBindingModel model)
         {
-            Component element = source.Components.FirstOrDefault(rec => rec.Id == id);
+            Component element = source.Components.FirstOrDefault(rec => rec.Id ==
+           model.Id);
             if (element != null)
             {
                 source.Components.Remove(element);
@@ -79,6 +53,16 @@ namespace AbstractIceCreamShopFileImplement.Implements
                 throw new Exception("Элемент не найден");
             }
         }
+        public List<ComponentViewModel> Read(ComponentBindingModel model)
+        {
+            return source.Components
+            .Where(rec => model == null || rec.Id == model.Id)
+            .Select(rec => new ComponentViewModel
+            {
+                Id = rec.Id,
+                ComponentName = rec.ComponentName
+            })
+            .ToList();
+        }
     }
-
 }
