@@ -6,9 +6,8 @@ namespace AbstractIceCreamShopListImplement.Models
 {
    public class IceCream
     {
-        public int Id { get; set; }
-        public string IceCreameName { get; set; }
+        public int Id { get; set; }      
         public decimal Price { get; set; }
-        public string IceCreamName { get; internal set; }
+        public string IceCreamName { get;  set; }
     }
 }

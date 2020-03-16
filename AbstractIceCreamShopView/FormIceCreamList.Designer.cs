@@ -98,6 +98,7 @@
             this.Controls.Add(this.dataGridView);
             this.Name = "FormIceCreamList";
             this.Text = "Список мороженого";
+            this.Load += new System.EventHandler(this.FormComponents_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 

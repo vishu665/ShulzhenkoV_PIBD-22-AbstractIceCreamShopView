@@ -102,9 +102,9 @@
             this.Controls.Add(this.comboBoxComponent);
             this.Name = "FormIceCreamComponent";
             this.Text = "Компонент мороженого";
-            this.Load += new System.EventHandler(this.FormIceCreamComponent_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 
         }
 

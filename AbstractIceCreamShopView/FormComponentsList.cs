@@ -1,4 +1,5 @@
-﻿using AbstractIceCreamShopBusinessLogic.Interfaces;
+﻿using AbstractIceCreamShopBusinessLogic.BindingModels;
+using AbstractIceCreamShopBusinessLogic.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,7 +31,7 @@ namespace AbstractIceCreamShopView
         {
             try
             {
-                var list = logic.GetList();
+                var list = logic.Read(null);
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -77,7 +78,7 @@ namespace AbstractIceCreamShopView
                     int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        logic.DelElement(id);
+                        logic.Delete(new ComponentBindingModel { Id = id });
                     }
                     catch (Exception ex)
                     {

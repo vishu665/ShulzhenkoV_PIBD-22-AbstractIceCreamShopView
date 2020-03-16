@@ -4,11 +4,9 @@ using System.Text;
 
 namespace AbstractIceCreamShopBusinessLogic.BindingModels
 {
-    public class ComponentBindingModel
+   public class ChangeStatusBindingModel
     {
-        public int? Id { get; set; }
-        public string ComponentName { get; set; }
-       
+        public int OrderId { get; set; }
 
     }
 }

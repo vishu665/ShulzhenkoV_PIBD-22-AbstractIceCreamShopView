@@ -1,4 +1,5 @@
 ﻿using AbstractIceCreamShopBusinessLogic.Interfaces;
+using AbstractIceCreamShopBusinessLogic.BusinessLogics;
 using AbstractIceCreamShopListImplement.Implements;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,14 @@ namespace AbstractIceCreamShopView
         private static IUnityContainer BuildUnityContainer()
         {
             var currentContainer = new UnityContainer();
-            currentContainer.RegisterType<IComponentLogic, ComponentLogic>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IIceCreamLogic, IceCreamLogic>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IMainLogic, MainLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IComponentLogic, ComponentLogic>(new
+           HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IOrderLogic, OrderLogic>(new
+           HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IIceCreamLogic, IceCreamLogic>(new
+           HierarchicalLifetimeManager());
+            currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
             return currentContainer;
         }
-
     }
 }

@@ -32,7 +32,7 @@ namespace AbstractIceCreamShopView
             {
                 try
                 {
-                    var view = logic.GetElement(id.Value);
+                    var view = logic.Read(new ComponentBindingModel { Id = id })?[0];
                     if (view != null)
                     {
                         textBoxName.Text = view.ComponentName;
@@ -56,22 +56,13 @@ namespace AbstractIceCreamShopView
             }
             try
             {
-                if (id.HasValue)
+                logic.CreateOrUpdate(new ComponentBindingModel
                 {
-                    logic.UpdElement(new ComponentBindingModel
-                    {
-                        Id = id.Value,
-                        ComponentName = textBoxName.Text
-                    });
-                }
-                else
-                {
-                    logic.AddElement(new ComponentBindingModel
-                    {
-                        ComponentName = textBoxName.Text
-                    });
-                }
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Id = id,
+                    ComponentName = textBoxName.Text
+                });
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение",
+               MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
                 Close();
             }
@@ -79,7 +70,7 @@ namespace AbstractIceCreamShopView
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
                MessageBoxIcon.Error);
-            }
+            }         
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

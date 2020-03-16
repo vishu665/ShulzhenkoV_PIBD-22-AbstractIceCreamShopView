@@ -11,7 +11,7 @@ namespace AbstractIceCreamShopBusinessLogic.ViewModels
     {
         public int Id { get; set; }
         public int IceCreamId { get; set; }
-        [DisplayName("Мороженое")]
+        [DisplayName("Изделие")]
         public string IceCreamName { get; set; }
         [DisplayName("Количество")]
         public int Count { get; set; }
@@ -23,6 +23,7 @@ namespace AbstractIceCreamShopBusinessLogic.ViewModels
         public DateTime DateCreate { get; set; }
         [DisplayName("Дата выполнения")]
         public DateTime? DateImplement { get; set; }
+
 
     }
 }

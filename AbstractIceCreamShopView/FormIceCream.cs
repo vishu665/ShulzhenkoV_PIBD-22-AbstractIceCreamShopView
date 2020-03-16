@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,7 +21,7 @@ namespace AbstractIceCreamShopView
         public int Id { set { id = value; } }
         private readonly IIceCreamLogic logic;
         private int? id;
-        private List<IceCreamComponentViewModel> iceCreamComponents;
+        private Dictionary<int, (string, int)> iceCreamComponentList;
         public FormIceCream(IIceCreamLogic service)
         {
             InitializeComponent();
@@ -34,12 +33,15 @@ namespace AbstractIceCreamShopView
             {
                 try
                 {
-                    IceCreamViewModel view = logic.GetElement(id.Value);
+                     IceCreamViewModel view = logic.Read(new IceCreamBindingModel
+                     {
+                         Id = id.Value
+                     })?[0];
                     if (view != null)
                     {
                         textBoxName.Text = view.IceCreamName;
                         textBoxPrice.Text = view.Price.ToString();
-                        iceCreamComponents = view.IceCreamComponents;
+                        iceCreamComponentList = view.IceCreamComponents;
                         LoadData();
                     }
                 }
@@ -51,47 +53,43 @@ namespace AbstractIceCreamShopView
             }
             else
             {
-                iceCreamComponents = new List<IceCreamComponentViewModel>();
+                iceCreamComponentList = new Dictionary<int, (string, int)>();
             }
         }
         private void LoadData()
         {
             try
             {
-                if (iceCreamComponents != null)
+                if (iceCreamComponentList != null)
                 {
-                    dataGridView.DataSource = null;
-                    dataGridView.DataSource = iceCreamComponents;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[3].AutoSizeMode =
-                   DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Rows.Clear();
+                    foreach (var pc in iceCreamComponentList)
+                    {
+                        dataGridView.Rows.Add(new object[] { pc.Key, pc.Value.Item1, pc.Value.Item2 });
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormIceCreamComponent>();
+            var form = Container.Resolve<FormIceCreamComponent > ();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                if (form.ModelView != null)
+                if (iceCreamComponentList.ContainsKey(form.Id))
                 {
-                    if (id.HasValue)
-                    {
-                        form.ModelView.IceCreamId = id.Value;
-                    }
-                    iceCreamComponents.Add(form.ModelView);
+                    iceCreamComponentList[form.Id] = (form.ComponentName, form.Count);
+                }
+                else
+                {
+                    iceCreamComponentList.Add(form.Id, (form.ComponentName, form.Count));
                 }
                 LoadData();
             }
-
         }
 
         private void buttonUpd_Click(object sender, EventArgs e)
@@ -99,12 +97,12 @@ namespace AbstractIceCreamShopView
             if (dataGridView.SelectedRows.Count == 1)
             {
                 var form = Container.Resolve<FormIceCreamComponent>();
-                form.ModelView =
-               iceCreamComponents[dataGridView.SelectedRows[0].Cells[0].RowIndex];
+                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                form.Id = id;
+                form.Count = iceCreamComponentList[id].Item2;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    iceCreamComponents[dataGridView.SelectedRows[0].Cells[0].RowIndex] =
-                   form.ModelView;
+                    iceCreamComponentList[form.Id] = (form.ComponentName, form.Count);
                     LoadData();
                 }
             }
@@ -114,13 +112,12 @@ namespace AbstractIceCreamShopView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                if (MessageBox.Show("Удалить запись", "Вопрос",
-               MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
+               MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     try
                     {
-
-                        iceCreamComponents.RemoveAt(dataGridView.SelectedRows[0].Cells[0].RowIndex);
+                        iceCreamComponentList.Remove(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
                     }
                     catch (Exception ex)
                     {
@@ -130,7 +127,6 @@ namespace AbstractIceCreamShopView
                     LoadData();
                 }
             }
-
         }
 
         private void buttonRef_Click(object sender, EventArgs e)
@@ -152,7 +148,7 @@ namespace AbstractIceCreamShopView
                MessageBoxIcon.Error);
                 return;
             }
-            if (iceCreamComponents == null || iceCreamComponents.Count == 0)
+            if (iceCreamComponentList == null || iceCreamComponentList.Count == 0)
             {
                 MessageBox.Show("Заполните компоненты", "Ошибка", MessageBoxButtons.OK,
                MessageBoxIcon.Error);
@@ -160,36 +156,13 @@ namespace AbstractIceCreamShopView
             }
             try
             {
-                List<IceCreamComponentBindingModel> icecreamComponentBM = new List<IceCreamComponentBindingModel>();
-                for (int i = 0; i < iceCreamComponents.Count; ++i)
+                logic.CreateOrUpdate(new IceCreamBindingModel
                 {
-                    icecreamComponentBM.Add(new IceCreamComponentBindingModel
-                    {
-                        Id = iceCreamComponents[i].Id,
-                        IceCreamId = iceCreamComponents[i].IceCreamId,
-                        ComponentId = iceCreamComponents[i].ComponentId,
-                        Count = iceCreamComponents[i].Count
-                    });
-                }
-                if (id.HasValue)
-                {
-                    logic.UpdElement(new IceCreamBindingModel
-                    {
-                        Id = id.Value,
-                        IceCreamName = textBoxName.Text,
-                        Price = Convert.ToDecimal(textBoxPrice.Text),
-                        iceCreamComponents = icecreamComponentBM
-                    });
-                }
-                else
-                {
-                    logic.AddElement(new IceCreamBindingModel
-                    {
-                        IceCreamName = textBoxName.Text,
-                        Price = Convert.ToDecimal(textBoxPrice.Text),
-                        iceCreamComponents = icecreamComponentBM
-                    });
-                }
+                    Id = id,
+                    IceCreamName = textBoxName.Text,
+                    Price = Convert.ToDecimal(textBoxPrice.Text),
+                    IceCreamComponents = iceCreamComponentList
+                });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение",
                MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;

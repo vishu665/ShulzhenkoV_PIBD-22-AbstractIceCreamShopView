@@ -6,11 +6,10 @@ using System.Text;
 
 namespace AbstractIceCreamShopBusinessLogic.Interfaces
 {
-    public interface IComponentLogic
+    public interface IOrderLogic
     {
-        List<ComponentViewModel> Read(ComponentBindingModel model);
-        void CreateOrUpdate(ComponentBindingModel model);
-        void Delete(ComponentBindingModel model);
-
+        List<OrderViewModel> Read(OrderBindingModel model);
+        void CreateOrUpdate(OrderBindingModel model);
+        void Delete(OrderBindingModel model);
     }
 }

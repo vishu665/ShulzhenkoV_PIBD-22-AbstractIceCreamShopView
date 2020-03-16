@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractIceCreamShopView", "AbstractIceCreamShopView\AbstractIceCreamShopView.csproj", "{B07FD0DB-9D4F-4A5E-8EEC-788E9B2BF5BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractIceCreamShopBusinessLogic", "AbstractIceCreamShopBusinessLogic\AbstractIceCreamShopBusinessLogic.csproj", "{EF0C7B80-4DD5-47ED-99DA-BBA39A46459F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractIceCreamShopBusinessLogic", "AbstractIceCreamShopBusinessLogic\AbstractIceCreamShopBusinessLogic.csproj", "{EF0C7B80-4DD5-47ED-99DA-BBA39A46459F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractIceCreamShopListImplement", "AbstractIceCreamShopListImplement\AbstractIceCreamShopListImplement.csproj", "{012EDB41-AE92-4312-8382-63232C85D590}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractIceCreamShopListImplement", "AbstractIceCreamShopListImplement\AbstractIceCreamShopListImplement.csproj", "{012EDB41-AE92-4312-8382-63232C85D590}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

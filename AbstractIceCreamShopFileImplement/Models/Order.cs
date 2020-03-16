@@ -1,11 +1,12 @@
-﻿using AbstractIceCreamShopBusinessLogic.Enums;
-using System;
+﻿using System;
+using AbstractIceCreamShopBusinessLogic.Enums;
+
 using System.Collections.Generic;
 using System.Text;
 
-namespace AbstractIceCreamShopListImplement.Models
+namespace AbstractIceCreamShopFileImplement.Models
 {
-   public class Order
+    public class Order
     {
         public int Id { get; set; }
         public int IceCreamId { get; set; }
@@ -14,7 +15,5 @@ namespace AbstractIceCreamShopListImplement.Models
         public OrderStatus Status { get; set; }
         public DateTime DateCreate { get; set; }
         public DateTime? DateImplement { get; set; }
-
-
     }
 }

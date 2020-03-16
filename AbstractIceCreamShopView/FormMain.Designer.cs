@@ -150,6 +150,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.Name = "FormMain";
             this.Text = "Главная страница лавки";
+            this.Load += new System.EventHandler(this.FormMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
