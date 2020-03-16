@@ -128,5 +128,10 @@ namespace AbstractIceCreamShopView
         {
             LoadData();
         }
+
+        private void компонентыМороженогоToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
