@@ -12,7 +12,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
-using NUnit.Framework;
 
 namespace AbstractIceCreamShopView
 {

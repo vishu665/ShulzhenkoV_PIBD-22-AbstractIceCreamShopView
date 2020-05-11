@@ -45,15 +45,15 @@ namespace AbstractIceCreamShopDatabaseImplement.Implements
                         context.SaveChanges();
                         if (model.Id.HasValue)
                         {
-                            var productComponents = context.IceCreamComponents.Where(rec
+                            var iceCreamComponents = context.IceCreamComponents.Where(rec
                            => rec.IceCreamId == model.Id.Value).ToList();
                             // удалили те, которых нет в модели
 
-                            context.IceCreamComponents.RemoveRange(productComponents.Where(rec =>
+                            context.IceCreamComponents.RemoveRange(iceCreamComponents.Where(rec =>
                             !model.IceCreamComponents.ContainsKey(rec.ComponentId)).ToList());
                             context.SaveChanges();
                             // обновили количество у существующих записей
-                            foreach (var updateComponent in productComponents)
+                            foreach (var updateComponent in iceCreamComponents)
                             {
                                 updateComponent.Count =
                                model.IceCreamComponents[updateComponent.ComponentId].Item2;
