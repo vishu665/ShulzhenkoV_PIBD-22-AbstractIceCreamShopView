@@ -60,18 +60,23 @@ namespace AbstractIceCreamShopDatabaseImplement.Implements
             using (var context = new IceCreamShopDatabase())
             {
                 return context.Orders
-                .Where(rec => model == null || rec.Id == model.Id)
+                .Where(
+                    rec => model == null
+                    || (rec.Id == model.Id && model.Id.HasValue)
+                    || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                )
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
-                    IceCreamName = context.IceCreams.FirstOrDefault((r) => r.Id == rec.IceCreamId).IceCreamName,
+                    IceCreamId = rec.IceCreamId,
                     Count = rec.Count,
                     Sum = rec.Sum,
                     Status = rec.Status,
                     DateCreate = rec.DateCreate,
-                    DateImplement = rec.DateImplement
+                    DateImplement = rec.DateImplement,
+                    IceCreamName = rec.IceCream.IceCreamName
                 })
-            .ToList();
+                .ToList();
             }
         }
     }
