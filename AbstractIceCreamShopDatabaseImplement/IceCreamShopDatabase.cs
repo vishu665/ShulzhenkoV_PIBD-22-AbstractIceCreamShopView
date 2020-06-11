@@ -18,5 +18,7 @@ namespace AbstractIceCreamShopDatabaseImplement
         public virtual DbSet<IceCream> IceCreams { set; get; }
         public virtual DbSet<IceCreamComponent> IceCreamComponents { set; get; }
         public virtual DbSet<Order> Orders { set; get; }
+        public virtual DbSet<Client> Clients { set; get; }
+
     }
 }

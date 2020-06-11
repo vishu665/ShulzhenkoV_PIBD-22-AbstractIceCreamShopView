@@ -2,6 +2,7 @@
 using AbstractIceCreamShopBusinessLogic.Interfaces;
 using AbstractIceCreamShopBusinessLogic.ViewModels;
 using AbstractIceCreamShopDatabaseImplement.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,23 +61,24 @@ namespace AbstractIceCreamShopDatabaseImplement.Implements
             using (var context = new IceCreamShopDatabase())
             {
                 return context.Orders
-                .Where(
-                    rec => model == null
-                    || (rec.Id == model.Id && model.Id.HasValue)
-                    || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
-                )
-                .Select(rec => new OrderViewModel
-                {
-                    Id = rec.Id,
-                    IceCreamId = rec.IceCreamId,
-                    Count = rec.Count,
-                    Sum = rec.Sum,
-                    Status = rec.Status,
-                    DateCreate = rec.DateCreate,
-                    DateImplement = rec.DateImplement,
-                    IceCreamName = rec.IceCream.IceCreamName
-                })
-                .ToList();
+                 .Where(rec => model == null || rec.Id == model.Id && model.Id.HasValue
+                    || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
+                    || model.ClientId.HasValue && rec.ClientId == model.ClientId)
+                 .Include(rec => rec.Client)
+                 .Select(rec => new OrderViewModel
+                 {
+                     Id = rec.Id,
+                     ClientId = rec.ClientId,
+                     IceCreamId = rec.IceCreamId,
+                     Count = rec.Count,
+                     Sum = rec.Sum,
+                     Status = rec.Status,
+                     DateCreate = rec.DateCreate,
+                     DateImplement = rec.DateImplement,
+                     IceCreamName = rec.IceCream.IceCreamName,
+                     ClientFIO = rec.Client.FIO
+                 })
+            .ToList();
             }
         }
     }

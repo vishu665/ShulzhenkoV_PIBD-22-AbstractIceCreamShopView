@@ -20,6 +20,7 @@ namespace AbstractIceCreamShopBusinessLogic.BusinessLogics
             {
                 IceCreamId = model.IceCreamId,
                 Count = model.Count,
+                ClientId = model.ClientId,
                 Sum = model.Sum,
                 DateCreate = DateTime.Now,
                 Status = OrderStatus.Принят
@@ -42,6 +43,7 @@ namespace AbstractIceCreamShopBusinessLogic.BusinessLogics
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
                 IceCreamId = order.IceCreamId,
                 Count = order.Count,
                 Sum = order.Sum,
@@ -69,6 +71,7 @@ namespace AbstractIceCreamShopBusinessLogic.BusinessLogics
                 Id = order.Id,
                 IceCreamId = order.IceCreamId,
                 Count = order.Count,
+                ClientId = order.ClientId,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
@@ -94,6 +97,7 @@ namespace AbstractIceCreamShopBusinessLogic.BusinessLogics
                 Id = order.Id,
                 IceCreamId = order.IceCreamId,
                 Count = order.Count,
+                ClientId = order.ClientId,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
