@@ -23,7 +23,7 @@ namespace AbstractIceCreamShopClientView
                 comboBoxIceCream.DisplayMember = "IceCreamName";
                 comboBoxIceCream.ValueMember = "Id";
                 comboBoxIceCream.DataSource =
-               APIClient.GetRequest<List<IceCreamViewModel>>("api/main/getpicecreamlist");
+               APIClient.GetRequest<List<IceCreamViewModel>>("api/main/GetIceCreamList");
                 comboBoxIceCream.SelectedItem = null;
             }
             catch (Exception ex)
@@ -39,10 +39,10 @@ namespace AbstractIceCreamShopClientView
             {
                 try
                 {
-                    int id = Convert.ToInt32(comboBoxIceCream.SelectedValue); IceCreamViewModel icecream =
- APIClient.GetRequest<IceCreamViewModel>($"api/main/geticecream?icecreamId={id}");
+                    int id = Convert.ToInt32(comboBoxIceCream.SelectedValue);
+                    IceCreamViewModel ice = APIClient.GetRequest<IceCreamViewModel>($"api/main/GetProduct?icecreamid={id}");
                     int count = Convert.ToInt32(textBoxCount.Text);
-                    textBoxSum.Text = (count * icecream.Price).ToString();
+                    textBoxSum.Text = (count * ice.Price).ToString();
                 }
                 catch (Exception ex)
                 {
@@ -95,4 +95,3 @@ namespace AbstractIceCreamShopClientView
         }
     }
 }
-

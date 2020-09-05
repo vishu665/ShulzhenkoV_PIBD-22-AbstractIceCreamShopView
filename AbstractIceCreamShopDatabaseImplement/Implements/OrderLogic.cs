@@ -31,6 +31,7 @@ namespace AbstractIceCreamShopDatabaseImplement.Implements
                     context.Orders.Add(element);
                 }
                 element.IceCreamId = model.IceCreamId == 0 ? element.IceCreamId : model.IceCreamId;
+                element.ClientId = model.ClientId == null ? element.ClientId : (int)model.ClientId;
                 element.Count = model.Count;
                 element.Sum = model.Sum;
                 element.Status = model.Status;

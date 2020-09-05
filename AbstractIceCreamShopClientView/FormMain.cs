@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AbstractIceCreamShopClientView
@@ -44,15 +42,17 @@ namespace AbstractIceCreamShopClientView
         private void CreateOrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new FormCreateOrder();
-            if (form.ShowDialog() == DialogResult.OK)
-            {
-                LoadList();
-            }
+          
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadList();
+                }
+          
+            
         }
         private void RefreshOrderListToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadList();
         }
-
     }
 }
