@@ -24,7 +24,8 @@ namespace AbstractIceCreamShopRestApi
             services.AddTransient<IClientLogic, ClientLogic>();
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IIceCreamLogic, IceCreamLogic>();
-            services.AddTransient<MainLogic>();           
+            services.AddTransient<MainLogic>();
+            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
             services.AddControllers();
         }
 
