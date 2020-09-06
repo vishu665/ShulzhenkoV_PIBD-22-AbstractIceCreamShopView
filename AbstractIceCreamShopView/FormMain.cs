@@ -14,13 +14,16 @@ namespace AbstractIceCreamShopView
         private readonly MainLogic logic;
         private readonly IOrderLogic orderLogic;
         private readonly ReportLogic reportLogic;
+        private readonly WorkModeling work;
 
-        public FormMain(MainLogic logic, ReportLogic reportLogic, IOrderLogic orderLogic)
+        public FormMain(MainLogic logic, ReportLogic reportLogic, WorkModeling work, IOrderLogic orderLogic)
         {
             InitializeComponent();
             this.logic = logic;
             this.reportLogic = reportLogic;
             this.orderLogic = orderLogic;
+            this.work = work;
+
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -37,7 +40,8 @@ namespace AbstractIceCreamShopView
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
                     dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[3].Visible = false;
+                    dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
             catch (Exception ex)
@@ -64,43 +68,6 @@ namespace AbstractIceCreamShopView
             var form = Container.Resolve<FormCreateOrder>();
             form.ShowDialog();
             LoadData();
-        }
-
-        private void buttonTakeOrderInWork_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-                try
-                {
-                    logic.TakeOrderInWork(new ChangeStatusBindingModel { OrderId = id });
-                    LoadData();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void buttonnOrderReady_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-                try
-                {
-                    logic.FinishOrder(new ChangeStatusBindingModel { OrderId = id });
-                    LoadData();
-                    
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
-                }
-            }
         }
 
         private void buttonPayOrder_Click(object sender, EventArgs e)
@@ -138,7 +105,6 @@ namespace AbstractIceCreamShopView
             }
 
         }
-
         private void компонентыДляМороженогоToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportIceCreamComponents>();
@@ -155,6 +121,17 @@ namespace AbstractIceCreamShopView
         private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormClients>();
+            form.ShowDialog();
+        }
+
+        private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            work.DoWork();
+        }
+
+        private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormImplementers>();
             form.ShowDialog();
         }
     }

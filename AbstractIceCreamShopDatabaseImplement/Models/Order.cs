@@ -11,6 +11,7 @@ namespace AbstractIceCreamShopDatabaseImplement.Models
         public int Id { get; set; }
         public int IceCreamId { get; set; }
         public int ClientId { get; set; }
+        public int? ImplementerId { get; set; }
 
         [Required]
         public int Count { get; set; }
@@ -24,6 +25,7 @@ namespace AbstractIceCreamShopDatabaseImplement.Models
         public DateTime? DateImplement { get; set; }
         public virtual IceCream IceCream { get; set; }
         public Client Client { get; set; }
+        public Implementer Implementer { get; set; }
 
     }
 }
