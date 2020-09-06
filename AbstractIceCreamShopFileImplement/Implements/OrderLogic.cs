@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using AbstractIceCreamShopBusinessLogic.Enums;
 
 namespace AbstractIceCreamShopFileImplement.Implements
 {
@@ -36,6 +37,7 @@ namespace AbstractIceCreamShopFileImplement.Implements
             }
             element.IceCreamId = model.IceCreamId == 0 ? element.IceCreamId : model.IceCreamId;
             element.ClientId = model.ClientId == null ? element.ClientId : (int)model.ClientId;
+            element.ImplementerId = model.ImplementerId;
             element.Count = model.Count;
             element.Sum = model.Sum;
             element.Status = model.Status;
@@ -59,11 +61,15 @@ namespace AbstractIceCreamShopFileImplement.Implements
         {
             return source.Orders
             .Where(rec => model == null || rec.Id == model.Id || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
-            || model.ClientId.HasValue && rec.ClientId == model.ClientId)
+            || model.ClientId.HasValue && rec.ClientId == model.ClientId
+            || model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется
+           )
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
                 ClientId = rec.ClientId,
+                ImplementerFIO = source.Implementers.FirstOrDefault(recC => recC.Id == rec.ImplementerId)?.ImplementerFIO,
+                ImplementerId = rec.ImplementerId,
                 IceCreamName = source.IceCreams.FirstOrDefault(recP => recP.Id == rec.IceCreamId)?.IceCreamName,
                 ClientFIO = source.Clients.FirstOrDefault(recC => recC.Id == rec.ClientId)?.FIO,
                 Count = rec.Count,
