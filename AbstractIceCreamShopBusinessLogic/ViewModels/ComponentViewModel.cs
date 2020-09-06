@@ -1,4 +1,6 @@
 ﻿using System;
+using AbstractIceCreamShopBusinessLogic.Attributes;
+using AbstractIceCreamShopBusinessLogic.Enums;
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
@@ -6,10 +8,14 @@ using System.ComponentModel;
 
 namespace AbstractIceCreamShopBusinessLogic.ViewModels
 {
-    public class ComponentViewModel
+    public class ComponentViewModel : BaseViewModel
     {
-        public int Id { get; set; }
-        [DisplayName("Название компонента")]
+        [Column(title: "Название компонента", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string ComponentName { get; set; }
+        public override List<string> Properties() => new List<string>
+        {
+            "Id",
+            "ComponentName"
+        };
     }
 }

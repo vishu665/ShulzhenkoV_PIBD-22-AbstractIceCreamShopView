@@ -44,6 +44,7 @@
             this.списокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.запускРаботToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сообщенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.создатьБекапToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -100,10 +101,11 @@
             this.справочникиToolStripMenuItem,
             this.отчетыToolStripMenuItem,
             this.запускРаботToolStripMenuItem,
-            this.сообщенияToolStripMenuItem});
+            this.сообщенияToolStripMenuItem,
+            this.создатьБекапToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1261, 28);
+            this.menuStrip.Size = new System.Drawing.Size(1261, 30);
             this.menuStrip.TabIndex = 6;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -115,7 +117,7 @@
             this.клиентыToolStripMenuItem,
             this.исполнителиToolStripMenuItem});
             this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
-            this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(117, 24);
+            this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(117, 26);
             this.справочникиToolStripMenuItem.Text = "Справочники";
             // 
             // компонентыToolStripMenuItem
@@ -153,7 +155,7 @@
             this.компонентыДляМороженогоToolStripMenuItem,
             this.списокЗаказовToolStripMenuItem});
             this.отчетыToolStripMenuItem.Name = "отчетыToolStripMenuItem";
-            this.отчетыToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
+            this.отчетыToolStripMenuItem.Size = new System.Drawing.Size(73, 26);
             this.отчетыToolStripMenuItem.Text = "Отчеты";
             // 
             // списокКомпонентовToolStripMenuItem
@@ -180,16 +182,23 @@
             // запускРаботToolStripMenuItem
             // 
             this.запускРаботToolStripMenuItem.Name = "запускРаботToolStripMenuItem";
-            this.запускРаботToolStripMenuItem.Size = new System.Drawing.Size(114, 24);
+            this.запускРаботToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.запускРаботToolStripMenuItem.Text = "Запуск работ";
             this.запускРаботToolStripMenuItem.Click += new System.EventHandler(this.запускРаботToolStripMenuItem_Click);
             // 
             // сообщенияToolStripMenuItem
             // 
             this.сообщенияToolStripMenuItem.Name = "сообщенияToolStripMenuItem";
-            this.сообщенияToolStripMenuItem.Size = new System.Drawing.Size(105, 24);
+            this.сообщенияToolStripMenuItem.Size = new System.Drawing.Size(105, 26);
             this.сообщенияToolStripMenuItem.Text = "Сообщения";
             this.сообщенияToolStripMenuItem.Click += new System.EventHandler(this.сообщенияToolStripMenuItem_Click);
+            // 
+            // создатьБекапToolStripMenuItem
+            // 
+            this.создатьБекапToolStripMenuItem.Name = "создатьБекапToolStripMenuItem";
+            this.создатьБекапToolStripMenuItem.Size = new System.Drawing.Size(121, 26);
+            this.создатьБекапToolStripMenuItem.Text = "создать Бекап";
+            this.создатьБекапToolStripMenuItem.Click += new System.EventHandler(this.создатьБекапToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -232,5 +241,6 @@
         private System.Windows.Forms.ToolStripMenuItem запускРаботToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem исполнителиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сообщенияToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem создатьБекапToolStripMenuItem;
     }
 }
