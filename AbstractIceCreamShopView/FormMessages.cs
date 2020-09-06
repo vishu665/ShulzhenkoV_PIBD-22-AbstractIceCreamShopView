@@ -28,14 +28,8 @@ namespace AbstractIceCreamShopView
         {
             try
             {
-                var list = logic.Read(null);
+                Program.ConfigGrid(logic.Read(null), dataGridView);
 
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
             }
             catch (Exception ex)
             {
