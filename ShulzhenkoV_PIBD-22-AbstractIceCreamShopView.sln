@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractIceCreamShopListImp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractIceCreamShopFileImplement", "AbstractIceCreamShopFileImplement\AbstractIceCreamShopFileImplement.csproj", "{FB1BC21A-2D89-491F-BB5E-B1800041226D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractIceCreamShopDatabaseImplement", "AbstractIceCreamShopDatabaseImplement\AbstractIceCreamShopDatabaseImplement.csproj", "{6C153734-34E2-4BF9-B9EA-C9694C70D4DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractIceCreamShopDatabaseImplement", "AbstractIceCreamShopDatabaseImplement\AbstractIceCreamShopDatabaseImplement.csproj", "{6C153734-34E2-4BF9-B9EA-C9694C70D4DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractIceCreamShopRestApi", "AbstractIceCreamShopRestApi\AbstractIceCreamShopRestApi.csproj", "{40A21118-C76B-41F4-BC74-84FF6915907F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractIceCreamShopClientView", "AbstractIceCreamShopClientView\AbstractIceCreamShopClientView.csproj", "{C9C474CB-9054-4B12-A8F0-F890D4293184}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{6C153734-34E2-4BF9-B9EA-C9694C70D4DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C153734-34E2-4BF9-B9EA-C9694C70D4DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C153734-34E2-4BF9-B9EA-C9694C70D4DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40A21118-C76B-41F4-BC74-84FF6915907F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40A21118-C76B-41F4-BC74-84FF6915907F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40A21118-C76B-41F4-BC74-84FF6915907F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40A21118-C76B-41F4-BC74-84FF6915907F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9C474CB-9054-4B12-A8F0-F890D4293184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9C474CB-9054-4B12-A8F0-F890D4293184}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9C474CB-9054-4B12-A8F0-F890D4293184}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9C474CB-9054-4B12-A8F0-F890D4293184}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

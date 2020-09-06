@@ -16,6 +16,10 @@ namespace AbstractIceCreamShopFileImplement
         private readonly string OrderFileName = "Order.xml";
         private readonly string IceCreamFileName = "IceCream.xml";
         private readonly string IceCreamComponentFileName = "IceCreamComponent.xml";
+        private readonly string ClientFileName = "Client.xml";
+        public List<Client> Clients { get; set; }
+
+
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<IceCream> IceCreams { get; set; }
@@ -26,6 +30,7 @@ namespace AbstractIceCreamShopFileImplement
             Orders = LoadOrders();
             IceCreams = LoadIceCrems();
             IceCreamComponents = LoadIceCreamComponents();
+            Clients = LoadClients();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -104,6 +109,29 @@ namespace AbstractIceCreamShopFileImplement
                     });
                 }
             }
+            return list;
+        }
+        private List<Client> LoadClients()
+        {
+            var list = new List<Client>();
+
+            if (File.Exists(ClientFileName))
+            {
+                XDocument xDocument = XDocument.Load(ClientFileName);
+                var xElements = xDocument.Root.Elements("Client").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Client
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        FIO = elem.Element("FIO").Value,
+                        Email = elem.Element("Email").Value,
+                        Password = elem.Element("Password").Value
+                    });
+                }
+            }
+
             return list;
         }
         private List<IceCreamComponent> LoadIceCreamComponents()

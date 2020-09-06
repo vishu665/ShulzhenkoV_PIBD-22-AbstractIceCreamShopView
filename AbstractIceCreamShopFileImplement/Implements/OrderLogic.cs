@@ -35,6 +35,7 @@ namespace AbstractIceCreamShopFileImplement.Implements
                 source.Orders.Add(element);
             }
             element.IceCreamId = model.IceCreamId == 0 ? element.IceCreamId : model.IceCreamId;
+            element.ClientId = model.ClientId == null ? element.ClientId : (int)model.ClientId;
             element.Count = model.Count;
             element.Sum = model.Sum;
             element.Status = model.Status;
@@ -57,11 +58,14 @@ namespace AbstractIceCreamShopFileImplement.Implements
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             return source.Orders
-            .Where(rec => model == null || rec.Id == model.Id)
+            .Where(rec => model == null || rec.Id == model.Id || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
+            || model.ClientId.HasValue && rec.ClientId == model.ClientId)
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
-                IceCreamName = GetIceCreamName(rec.IceCreamId),
+                ClientId = rec.ClientId,
+                IceCreamName = source.IceCreams.FirstOrDefault(recP => recP.Id == rec.IceCreamId)?.IceCreamName,
+                ClientFIO = source.Clients.FirstOrDefault(recC => recC.Id == rec.ClientId)?.FIO,
                 Count = rec.Count,
                 Sum = rec.Sum,
                 Status = rec.Status,
@@ -69,13 +73,6 @@ namespace AbstractIceCreamShopFileImplement.Implements
                 DateImplement = rec.DateImplement
             })
             .ToList();
-        }
-        private string GetIceCreamName(int id)
-        {
-            string name = "";
-            var iceCream = source.IceCreams.FirstOrDefault(x => x.Id == id);
-            name = iceCream != null ? iceCream.IceCreamName : "";
-            return name;
         }
     }
 }

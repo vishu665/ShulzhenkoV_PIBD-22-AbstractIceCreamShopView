@@ -21,20 +21,37 @@ namespace AbstractIceCreamShopView
         public new IUnityContainer Container { get; set; }
         private readonly IIceCreamLogic logicP;
         private readonly MainLogic logicM;
-        public FormCreateOrder(IIceCreamLogic logicP, MainLogic logicM)
+        private readonly IClientLogic logicC;
+
+        public FormCreateOrder(IIceCreamLogic logicP, IClientLogic logicC, MainLogic logicM)
         {
             InitializeComponent();
             this.logicP = logicP;
+            this.logicC = logicC;
             this.logicM = logicM;
         }
         private void FormCreateOrder_Load(object sender, EventArgs e)
         {
             try
             {
-                var list = logicP.Read(null);
-                comboBoxIceCream.DataSource = list;
-                comboBoxIceCream.DisplayMember = "IceCreamName";
-                comboBoxIceCream.ValueMember = "Id";
+                var listP = logicP.Read(null);
+
+                if (listP != null)
+                {
+                    comboBoxIceCream.DisplayMember = "IceCreamName";
+                    comboBoxIceCream.ValueMember = "Id";
+                    comboBoxIceCream.DataSource = listP;
+                    comboBoxIceCream.SelectedItem = null;
+                }          
+               
+                var listC = logicC.Read(null);
+                if (listC != null)
+                {
+                    comboBoxClient.DisplayMember = "ClientFIO";
+                    comboBoxClient.ValueMember = "Id";
+                    comboBoxClient.DataSource = listC;
+                    comboBoxClient.SelectedItem = null;
+                }
             }
             catch (Exception ex)
             {
@@ -87,11 +104,17 @@ namespace AbstractIceCreamShopView
                MessageBoxIcon.Error);
                 return;
             }
+            if (comboBoxClient.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите клиента", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             try
             {
                 logicM.CreateOrder(new CreateOrderBindingModel
                 {
                     IceCreamId = Convert.ToInt32(comboBoxIceCream.SelectedValue),
+                    ClientId = Convert.ToInt32(comboBoxClient.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
                     Sum = Convert.ToDecimal(textBoxSum.Text)
                 });
