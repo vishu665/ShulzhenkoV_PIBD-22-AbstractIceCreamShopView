@@ -66,6 +66,7 @@ namespace AbstractIceCreamShopListImplement.Implements
             order.IceCreamId = model.IceCreamId;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
+            order.ClientId = (int)model.ClientId;
             order.DateImplement = model.DateImplement;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -116,6 +117,7 @@ namespace AbstractIceCreamShopListImplement.Implements
             return new OrderViewModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
                 IceCreamId = order.IceCreamId,
                 IceCreamName = iceCreamtName,
                 Count = order.Count,

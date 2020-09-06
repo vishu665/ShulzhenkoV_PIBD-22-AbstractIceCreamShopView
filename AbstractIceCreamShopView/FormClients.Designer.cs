@@ -39,17 +39,19 @@
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Info;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.GridColor = System.Drawing.SystemColors.Info;
-            this.dataGridView.Location = new System.Drawing.Point(42, 22);
+            this.dataGridView.Location = new System.Drawing.Point(13, 13);
+            this.dataGridView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersWidth = 51;
-            this.dataGridView.Size = new System.Drawing.Size(382, 344);
+            this.dataGridView.Size = new System.Drawing.Size(509, 423);
             this.dataGridView.TabIndex = 4;
             // 
             // buttonDel
             // 
-            this.buttonDel.Location = new System.Drawing.Point(449, 33);
+            this.buttonDel.Location = new System.Drawing.Point(547, 24);
+            this.buttonDel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonDel.Name = "buttonDel";
-            this.buttonDel.Size = new System.Drawing.Size(99, 25);
+            this.buttonDel.Size = new System.Drawing.Size(167, 31);
             this.buttonDel.TabIndex = 5;
             this.buttonDel.Text = "Удалить";
             this.buttonDel.UseVisualStyleBackColor = true;
@@ -57,9 +59,10 @@
             // 
             // buttonRef
             // 
-            this.buttonRef.Location = new System.Drawing.Point(449, 86);
+            this.buttonRef.Location = new System.Drawing.Point(547, 89);
+            this.buttonRef.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonRef.Name = "buttonRef";
-            this.buttonRef.Size = new System.Drawing.Size(99, 25);
+            this.buttonRef.Size = new System.Drawing.Size(167, 31);
             this.buttonRef.TabIndex = 6;
             this.buttonRef.Text = "Обновить";
             this.buttonRef.UseVisualStyleBackColor = true;
@@ -67,14 +70,16 @@
             // 
             // FormClients
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(560, 450);
+            this.ClientSize = new System.Drawing.Size(727, 442);
             this.Controls.Add(this.buttonRef);
             this.Controls.Add(this.buttonDel);
             this.Controls.Add(this.dataGridView);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FormClients";
             this.Text = "Клиенты";
+            this.Load += new System.EventHandler(this.FormClients_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 
