@@ -25,6 +25,10 @@ namespace AbstractIceCreamShopListImplement.Implements
 
             foreach (var implementer in source.Implementers)
             {
+                if (implementer.ImplementerFIO == model.ImplementerFIO && implementer.Id != model.Id)
+                {
+                    throw new Exception("Уже есть испольнитель с таким фио");
+                }
                 if (implementer.Id >= tempImplementer.Id)
                 {
                     tempImplementer.Id = implementer.Id + 1;
