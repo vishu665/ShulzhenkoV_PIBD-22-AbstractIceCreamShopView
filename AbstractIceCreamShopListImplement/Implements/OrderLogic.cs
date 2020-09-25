@@ -80,18 +80,16 @@ namespace AbstractIceCreamShopListImplement.Implements
 
             foreach (var order in source.Orders)
             {
-                if (model != null)
+                if ((model != null && order.Id == model.Id)
+                    || (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
+                    || (model.ClientId.HasValue && order.ClientId == model.ClientId)
+                    || (model.FreeOrders.HasValue && model.FreeOrders.Value)
+                    || (model.ImplementerId.HasValue && order.ImplementerId == model.ImplementerId && order.Status == OrderStatus.Выполняется)
+                )
                 {
-                    if (order.Id == model.Id)
-                    {
-                        result.Add(CreateViewModel(order));
-                        break;
-                    }
-
-                    continue;
+                    result.Add(CreateViewModel(order));
+                    break;
                 }
-
-                result.Add(CreateViewModel(order));
             }
 
             return result;

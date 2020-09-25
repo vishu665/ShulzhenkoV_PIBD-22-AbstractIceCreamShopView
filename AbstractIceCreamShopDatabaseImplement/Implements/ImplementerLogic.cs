@@ -15,8 +15,20 @@ namespace AbstractIceCreamShopDatabaseImplement.Implements
             using (var context = new IceCreamShopDatabase())
             {
                 Implementer element = context.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
-
-                if (element == null)
+             
+                if (element != null)
+                {
+                    throw new Exception("Уже есть исполнитель с таким фио");
+                }
+                if (model.Id.HasValue)
+                {
+                    element = context.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
+                    if (element == null)
+                    {
+                        throw new Exception("Элемент не найден");
+                    }
+                }
+                else
                 {
                     element = new Implementer();
                     context.Implementers.Add(element);
@@ -53,7 +65,7 @@ namespace AbstractIceCreamShopDatabaseImplement.Implements
                 return context.Implementers
                 .Where(
                     rec => model == null
-                    || rec.Id == model.Id
+                    || (rec.Id == model.Id)
                 )
                 .Select(rec => new ImplementerViewModel
                 {
